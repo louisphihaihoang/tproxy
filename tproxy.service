@@ -1,0 +1,18 @@
+[Unit]
+Description=tproxy
+After=network.target
+
+[Service]
+Environment=CONFIGFILE=/etc/tproxy/tproxy.cfg
+ExecStart=/bin/tproxy ${CONFIGFILE}
+ExecReload=/bin/kill -SIGUSR1 $MAINPID
+KillMode=process
+Restart=on-failure
+RestartSec=10s
+LimitNOFILE=65536
+LimitNPROC=65536
+RuntimeDirectory=tproxy
+
+[Install]
+WantedBy=multi-user.target
+Alias=tproxy.service
